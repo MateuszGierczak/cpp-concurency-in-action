@@ -4,6 +4,7 @@ RUN apt-get upgrade \
  && apt-get update
 
 RUN apt-get install -y \
+ build-essential \
  cmake \
  curl \
  gcc-14 \
@@ -11,7 +12,8 @@ RUN apt-get install -y \
  unzip \
  zip \
  tar \
- vim
+ vim \
+ pkg-config
 
 ### VCPKG CONFIGURATION ###
 ARG VCPKG_VERSION=2024.12.16
@@ -24,9 +26,14 @@ RUN curl -q -L https://github.com/microsoft/vcpkg/archive/refs/tags/${VCPKG_VERS
  && ./bootstrap-vcpkg.sh \
  && ln -s /usr/bin/vcpkg-build/vcpkg /usr/bin/vcpkg
 
+ENV VCPKG_ROOT=/usr/bin/vcpkg-build
+
 ### NINJA BUILD CONFIGURATION ###
 RUN curl -q -L https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-linux.zip -o ninja-linux.zip \
  && unzip ninja-linux.zip \
  && mv ninja /usr/bin/ninja \
  && ln -s /usr/bin/ninja /usr/bin/ninja-build \
  && rm -f ninja-linux.zip
+
+### DEV TOOLS INSTALATION VIA VCPKG
+RUN vcpkg install gtest
