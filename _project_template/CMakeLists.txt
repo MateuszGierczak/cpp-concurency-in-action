@@ -11,6 +11,8 @@ project(${PROJECT_NAME_STR})
 
 message(STATUS "Parsing CMake for ${PROJECT_NAME}")
 
-find_package(GTest CONFIG REQUIRED)
+add_executable(${PROJECT_NAME} main.cpp)
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD_REQUIRED 20)
 
+find_package(GTest CONFIG REQUIRED)
 enable_testing()
